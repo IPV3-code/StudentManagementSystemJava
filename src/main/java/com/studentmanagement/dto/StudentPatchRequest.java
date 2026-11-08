@@ -4,6 +4,7 @@ public class StudentPatchRequest {
     private String name;
     private String email;
     private Integer age;
+    private String course;
 
     public StudentPatchRequest(){}
 
@@ -35,5 +36,13 @@ public class StudentPatchRequest {
 
     public void setAge(Integer age){
         this.age = age;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 }

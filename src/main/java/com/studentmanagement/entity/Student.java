@@ -28,13 +28,17 @@ public class Student {
     @Max(value = 120, message = "Age must not exceed 120")
     private Integer age;
 
+    @NotBlank(message = "Course cannot be blank")
+    private String course;
+
     public Student(){
     }
 
-    public Student(String name, String email, Integer age){
+    public Student(String name, String email, Integer age, String course){
         this.name = name;
         this.email = email;
         this.age = age;
+        this.course = course;
     }
 
     public Long getId(){
@@ -67,5 +71,13 @@ public class Student {
 
     public void setAge(Integer age){
         this.age = age;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 }

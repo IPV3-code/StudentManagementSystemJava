@@ -81,6 +81,11 @@ public class StudentService {
         if(request.getAge() != null){
             existingStudent.setAge(request.getAge());
         }
+
+        if (request.getCourse() != null) {
+            existingStudent.setCourse(request.getCourse());
+        }
+
         Student updatedStudent = studentRepository.save(existingStudent);
         return convertToResponse(updatedStudent);
 
@@ -97,11 +102,12 @@ public class StudentService {
         student.setName(request.getName());
         student.setEmail(request.getEmail());
         student.setAge(request.getAge());
+        student.setCourse(request.getCourse());
 
         return student;
     }
 
     private StudentResponse convertToResponse(Student student){
-        return new StudentResponse(student.getId(), student.getName(), student.getEmail(), student.getAge());
+        return new StudentResponse(student.getId(), student.getName(), student.getEmail(), student.getAge(), student.getCourse());
     }
 }

@@ -9,12 +9,14 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.net.URI;
 import java.util.List;
 //SRP,DIP
 @RestController
 @RequestMapping("/students")
+@CrossOrigin(origins = "http://localhost:5173")
 public class StudentController {
     private final StudentService studentService;
 
