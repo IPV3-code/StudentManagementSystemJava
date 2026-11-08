@@ -4,19 +4,29 @@ import com.studentmanagement.dto.StudentPatchRequest;
 import com.studentmanagement.dto.StudentRequest;
 import com.studentmanagement.dto.StudentResponse;
 import com.studentmanagement.entity.Student;
+import com.studentmanagement.notification.NotificationService;
 import com.studentmanagement.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 
+//DIP
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final Map<String, NotificationService> notificationServices;
 
-    public StudentService(StudentRepository studentRepository){
+    @Value("${app.notification.type}")
+    private String notificationType;
+
+    public StudentService(StudentRepository studentRepository, Map<String, NotificationService> notificationServices){
         this.studentRepository = studentRepository;
+        this.notificationServices = notificationServices;
     }
 
     public List<StudentResponse> getAllStudent(){
@@ -32,6 +42,14 @@ public class StudentService {
     public StudentResponse createStudent(StudentRequest request){
         Student student = convertToEntity(request);
         Student savedStudent = studentRepository.save(student);
+
+        NotificationService notificationService = notificationServices.get(notificationType);
+
+        if(notificationService == null){
+            throw new IllegalStateException("Email Notification service not found");
+        }
+
+        notificationService.sendNotification("Student Registered Successfully: " + savedStudent.getName());
 
         return convertToResponse(savedStudent);
     }
